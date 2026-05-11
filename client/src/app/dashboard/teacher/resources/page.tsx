@@ -138,7 +138,7 @@ export default function TeacherResources() {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header & Storage Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Learning Resources</h1>
           <p className="text-sm text-slate-500 mt-1">
@@ -184,7 +184,7 @@ export default function TeacherResources() {
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Resource Title</label>
             <input 
@@ -230,7 +230,7 @@ export default function TeacherResources() {
             <button 
               disabled={uploading || (type === 'file' && !file) || (type === 'link' && !linkUrl) || usage.usagePercent >= 100} 
               type="submit" 
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               <UploadCloud className="w-4 h-4" />
               {uploading ? 'Uploading...' : type === 'file' ? 'Upload Resource' : 'Share Link'}

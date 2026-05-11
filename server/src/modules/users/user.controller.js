@@ -99,7 +99,7 @@ const getStudentsByBatch = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized or no batch assigned' });
     }
 
-    const students = await User.find({ role: 'student', batch: user.batch }).select('name userId phone');
+    const students = await User.find({ role: 'student', batch: user.batch }).select('name userId phone remarks createdAt');
     res.json(students);
   } catch (error) {
     console.error(error);
@@ -107,4 +107,28 @@ const getStudentsByBatch = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUsers, updateUser, deleteUser, getStudentsByBatch };
+const updateStudentRemarks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { remarks } = req.body;
+    
+    if (req.user.role !== 'teacher') {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const student = await User.findById(id);
+    if (!student || student.role !== 'student') {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    student.remarks = remarks;
+    await student.save();
+
+    res.json({ message: 'Remarks updated successfully', remarks: student.remarks });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { createUser, getUsers, updateUser, deleteUser, getStudentsByBatch, updateStudentRemarks };

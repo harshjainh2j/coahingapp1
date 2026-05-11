@@ -84,11 +84,11 @@ export default function AdminDashboard() {
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Admin Overview</h1>
           <p className="text-sm text-slate-500 mt-1">Manage all teachers and students in your institute.</p>
         </div>
-        <div className="flex gap-2">
-          <Link href="/dashboard/admin/teachers" className="flex items-center gap-1 bg-white border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-50 transition-colors">
+        <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+          <Link href="/dashboard/admin/teachers" className="flex-1 sm:flex-none flex justify-center items-center gap-1 bg-white border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-50 transition-colors">
             <Plus className="w-4 h-4" /> Teacher
           </Link>
-          <Link href="/dashboard/admin/students" className="flex items-center gap-1 bg-white border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-50 transition-colors">
+          <Link href="/dashboard/admin/students" className="flex-1 sm:flex-none flex justify-center items-center gap-1 bg-white border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-50 transition-colors">
             <Plus className="w-4 h-4" /> Student
           </Link>
         </div>

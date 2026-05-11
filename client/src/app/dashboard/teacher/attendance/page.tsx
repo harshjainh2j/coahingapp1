@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { Save, Calendar as CalendarIcon, Users } from "lucide-react";
+import StudentDetailsModal from "@/components/StudentDetailsModal";
 
 export default function TeacherAttendance() {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export default function TeacherAttendance() {
   const [attendance, setAttendance] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
   
   // Default to today in YYYY-MM-DD
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -68,6 +70,13 @@ export default function TeacherAttendance() {
     }));
   };
 
+  const handleUpdateRemarks = (studentId: string, newRemarks: string) => {
+    setStudents(prev => prev.map(s => s._id === studentId ? { ...s, remarks: newRemarks } : s));
+    if (selectedStudent && selectedStudent._id === studentId) {
+      setSelectedStudent({ ...selectedStudent, remarks: newRemarks });
+    }
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -95,7 +104,7 @@ export default function TeacherAttendance() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Attendance Register</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Students Register</h1>
           <p className="text-sm text-slate-500 mt-1">
             Batch: <span className="font-semibold text-blue-600">{user?.batch || 'Unassigned'}</span>
           </p>
@@ -113,17 +122,17 @@ export default function TeacherAttendance() {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-[calc(100vh-220px)] min-h-[400px]">
-        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+        <div className="bg-slate-50 px-4 md:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
           <div className="flex items-center gap-2">
             <Users className="w-5 h-5 text-slate-500" />
-            <span className="font-medium text-slate-700">Student Roster</span>
+            <span className="font-medium text-slate-700">Students List</span>
             <span className="bg-slate-200 text-slate-600 text-xs py-0.5 px-2 rounded-full">{students.length} Total</span>
           </div>
           
           <button 
             onClick={handleSave}
             disabled={saving || loading || students.length === 0}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Attendance'}
@@ -145,16 +154,16 @@ export default function TeacherAttendance() {
                 const status = attendance[student._id]; // could be undefined initially
                 
                 return (
-                  <li key={student._id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors">
-                    <div>
-                      <p className="font-medium text-slate-900">{student.name || student.userId}</p>
+                  <li key={student._id} className="px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors">
+                    <div className="cursor-pointer" onClick={() => setSelectedStudent(student)}>
+                      <p className="font-medium text-slate-900 hover:text-blue-600 transition-colors">{student.name || student.userId}</p>
                       <p className="text-xs text-slate-500">{student.userId}</p>
                     </div>
                     
-                    <div className="flex items-center gap-2 bg-slate-100/50 p-1 rounded-lg border border-slate-200">
+                    <div className="flex items-center gap-2 bg-slate-100/50 p-1 rounded-lg border border-slate-200 w-full sm:w-auto">
                       <button
                         onClick={() => handleStatusChange(student._id, 'present')}
-                        className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                        className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
                           status === 'present' 
                             ? 'bg-emerald-500 text-white shadow-sm' 
                             : 'text-slate-600 hover:bg-slate-200'
@@ -164,7 +173,7 @@ export default function TeacherAttendance() {
                       </button>
                       <button
                         onClick={() => handleStatusChange(student._id, 'absent')}
-                        className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                        className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
                           status === 'absent' 
                             ? 'bg-red-500 text-white shadow-sm' 
                             : 'text-slate-600 hover:bg-slate-200'
@@ -180,6 +189,14 @@ export default function TeacherAttendance() {
           )}
         </div>
       </div>
+      
+      {selectedStudent && (
+        <StudentDetailsModal
+          student={selectedStudent}
+          onClose={() => setSelectedStudent(null)}
+          onUpdateRemarks={handleUpdateRemarks}
+        />
+      )}
     </div>
   );
 }

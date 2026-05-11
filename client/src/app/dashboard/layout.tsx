@@ -43,14 +43,14 @@ export default function DashboardLayout({
   } else if (user.role === "teacher") {
     navItems.push(
       { name: "Announcements", href: "/dashboard/teacher", icon: Megaphone },
-      { name: "Attendance", href: "/dashboard/teacher/attendance", icon: CalendarDays },
+      { name: "Students", href: "/dashboard/teacher/attendance", icon: CalendarDays },
       { name: "Resources", href: "/dashboard/teacher/resources", icon: FolderOpen },
       { name: "Doubts", href: "/dashboard/teacher/doubts", icon: MessageSquare }
     );
   } else if (user.role === "student") {
     navItems.push(
       { name: "Announcements", href: "/dashboard/student", icon: Megaphone },
-      { name: "Attendance", href: "/dashboard/student/attendance", icon: CalendarDays },
+      { name: "Students", href: "/dashboard/student/attendance", icon: CalendarDays },
       { name: "Resources", href: "/dashboard/student/resources", icon: FolderOpen },
       { name: "Doubts", href: "/dashboard/student/doubts", icon: MessageSquare }
     );
@@ -121,9 +121,30 @@ export default function DashboardLayout({
           </button>
         </div>
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
           {children}
         </main>
+
+        {/* Mobile Bottom Navigation */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-2 flex justify-around items-center z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] pb-safe">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`flex flex-col items-center justify-center w-16 py-3 gap-1 rounded-xl transition-colors ${
+                  isActive 
+                    ? "text-amber-500" 
+                    : "text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                <item.icon className={`w-6 h-6 ${isActive ? "text-amber-500" : "text-slate-400"}`} />
+                <span className="text-[10px] font-medium text-center leading-tight truncate w-full">{item.name}</span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, getUsers, updateUser, deleteUser, getStudentsByBatch } = require('./user.controller');
+const { createUser, getUsers, updateUser, deleteUser, getStudentsByBatch, updateStudentRemarks } = require('./user.controller');
 const { protect, restrictTo } = require('../auth/auth.middleware');
 
 const router = express.Router();
@@ -8,6 +8,7 @@ router.use(protect);
 
 // Teacher route
 router.get('/students', restrictTo('teacher'), getStudentsByBatch);
+router.put('/:id/remarks', restrictTo('teacher'), updateStudentRemarks);
 
 // Owner routes
 router.post('/', restrictTo('owner'), createUser);

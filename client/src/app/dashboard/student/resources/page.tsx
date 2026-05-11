@@ -43,7 +43,7 @@ export default function StudentResources() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white shadow-md">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 md:p-8 text-white shadow-md">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Class Materials</h1>
         <p className="text-blue-100">
           Resources shared with batch: <span className="font-semibold bg-white/20 px-2 py-1 rounded">{user?.batch || 'Unassigned'}</span>

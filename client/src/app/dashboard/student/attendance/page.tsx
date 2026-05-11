@@ -46,7 +46,7 @@ export default function StudentAttendance() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 md:p-8 text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">My Attendance</h1>
           <p className="text-blue-100">
@@ -83,7 +83,7 @@ export default function StudentAttendance() {
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-8">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center gap-2">
+        <div className="px-4 md:px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center gap-2">
           <CalendarDays className="w-5 h-5 text-slate-500" />
           <h2 className="font-semibold text-slate-800">Attendance History</h2>
         </div>
@@ -100,7 +100,7 @@ export default function StudentAttendance() {
           ) : (
             <ul className="divide-y divide-slate-100">
               {records.map((record) => (
-                <li key={record._id} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                <li key={record._id} className="px-4 md:px-6 py-4 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
                   <div className="font-medium text-slate-700">
                     {/* Assuming date is stored as YYYY-MM-DD, parse it for friendly display */}
                     {new Date(record.date).toLocaleDateString('en-US', { 

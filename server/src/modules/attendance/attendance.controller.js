@@ -75,4 +75,26 @@ const getStudentAttendance = async (req, res) => {
   }
 };
 
-module.exports = { getAttendance, saveAttendance, getStudentAttendance };
+// Teacher: Get history for a specific student
+const getStudentAttendanceHistory = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const user = await User.findById(req.user.id);
+
+    if (req.user.role !== 'teacher' || !user.batch) {
+      return res.status(403).json({ message: 'Not authorized or no batch assigned' });
+    }
+
+    const attendanceRecords = await Attendance.find({ 
+      student: studentId,
+      batch: user.batch
+    }).sort({ date: 1 });
+
+    res.json(attendanceRecords);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { getAttendance, saveAttendance, getStudentAttendance, getStudentAttendanceHistory };

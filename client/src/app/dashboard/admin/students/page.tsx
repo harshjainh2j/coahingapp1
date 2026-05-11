@@ -32,7 +32,7 @@ export default function ManageStudents() {
         <p className="text-sm text-slate-500 mt-1">Create new student accounts and assign their batches.</p>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-200 shadow-sm">
         <form onSubmit={handleSubmit} className="space-y-4">
           {message.text && (
             <div className={`p-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
